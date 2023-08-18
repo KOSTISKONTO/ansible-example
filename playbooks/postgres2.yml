@@ -1,6 +1,6 @@
 ---
-- hosts: db01
-  roles:
+
+- roles:
     - role: geerlingguy.postgresql
       become: yes
       
