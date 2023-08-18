@@ -3,7 +3,7 @@
   roles:
     - role: geerlingguy.postgresql
       become: yes
-      remote_user: azureuser
+      
   tasks:
     - name: change listen_addresses to '*'
       lineinfile:
