@@ -7,6 +7,7 @@ app02
 
 [database]
 db01
+db02
 
 [control]
 control ansible_connection=local
