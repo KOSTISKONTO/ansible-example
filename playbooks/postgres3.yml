@@ -1,5 +1,5 @@
 ---
-
+- hosts: db01
 - name: Install and set up Postgres 14 in Ubuntu 20.04
   hosts: ubuntusrv
   become: yes
