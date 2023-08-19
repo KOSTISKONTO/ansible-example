@@ -1,4 +1,4 @@
-webserver:
+webserversall:
   hosts:
     deploy-vm-2:
       ansible_host: app01
