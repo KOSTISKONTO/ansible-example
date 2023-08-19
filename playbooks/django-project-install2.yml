@@ -86,7 +86,7 @@
     - name: setup virtual environment
       pip:
         requirements: "{{app_dir}}/requirements.txt"
-        virtualenv: "{{app_dir}}/myvenv"
+        virtualenv: "{{app_dir}}/venv"
         virtualenv_python: python3
     rescue:
     - name: "APT - install misc packages"
@@ -101,14 +101,14 @@
     - name: setup virtual environment
       pip:
         requirements: "{{app_dir}}/requirements.txt"
-        virtualenv: "{{app_dir}}/myvenv"
+        virtualenv: "{{app_dir}}/venv"
         virtualenv_python: python3
 
     - name: make migrations
       django_manage:
         command: "{{ item }}"
         app_path: "{{app_dir}}/"
-        virtualenv: "{{app_dir}}/myvenv"
+        virtualenv: "{{app_dir}}/venv"
       with_items:
         - makemigrations
         - migrate
