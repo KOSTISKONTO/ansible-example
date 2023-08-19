@@ -11,6 +11,8 @@
   - name: print user_dir
     debug:
       msg: "user dir is {{user_dir}}"
+  
+  
 
   - name: Run whoami without become.
     command: whoami
@@ -46,11 +48,11 @@
     
 
   - name: copy env file
-    shell : "cp {{app_dir}}/myproject/.env.example {{app_dir}}/.env"
+    shell : "cp {{app_dir}}/myproject/.env.example {{app_dir}}/myproject/.env"
 
   - name: populate  ~/.env
     lineinfile:
-      dest: "{{app_dir}}/.env"
+      dest: "{{app_dir}}/myproject/.env"
       state: present
       regexp: "^{{item.key}}="
       line: "{{item.key}}='{{item.value}}'"
@@ -107,6 +109,7 @@
 
     - name: make migrations
       django_manage:
+        pip: install django
         command: "{{ item }}"
         app_path: "{{app_dir}}"
         virtualenv: "{{app_dir}}/venv"
