@@ -39,9 +39,13 @@
     git:
       repo: "{{git_repo_url}}"
       version: "{{git_repo_branch}}"
+      dest: "{{app_dir}}"
+      accept_hostkey: yes
+      key_file: /var/lib/jenkins/.ssh/id_rsa
       clone: yes
       force: yes
-      dest: "{{app_dir}}"
+      
+
     changed_when: true
 
   - name: copy env file
