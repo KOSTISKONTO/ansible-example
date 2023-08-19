@@ -41,6 +41,7 @@
       version: "{{git_repo_branch}}"
       dest: "{{app_dir}}"
       accept_hostkey: yes
+    become: no
     
 
   - name: copy env file
