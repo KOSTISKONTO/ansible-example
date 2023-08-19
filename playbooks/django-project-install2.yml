@@ -106,8 +106,9 @@
 
     - name: make migrations
       django_manage:
-        command: "python3 {{ item }}"
+        command: "{{ item }}"
         app_path: "{{app_dir}}/"
+        virtualenv: "{{app_dir}}/venv"
       with_items:
         - makemigrations
         - migrate
