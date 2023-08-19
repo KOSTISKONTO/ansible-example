@@ -106,12 +106,13 @@
 
     - name: make migrations
       django_manage:
-        command: "python3 manage.py makemigrations"
-        command: "python3 manage.py migrate"
-        command: "python3 manage.py collectstatic"
+        command: "{{ item }}"
         app_path: "{{app_dir}}/"
         virtualenv: "{{app_dir}}/venv"
-      
+      with_items:
+        - makemigrations
+        - migrate
+        - collectstatic
 
 
     - name: copy django service file
