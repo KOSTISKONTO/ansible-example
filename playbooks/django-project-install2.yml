@@ -46,11 +46,11 @@
     
 
   - name: copy env file
-    shell : "cp {{app_dir}}/myproject/.env.example {{app_dir}}/myproject/.env"
+    shell : "cp {{app_dir}}/myproject/.env.example {{app_dir}}/.env"
 
   - name: populate  ~/.env
     lineinfile:
-      dest: "{{app_dir}}/myproject/.env"
+      dest: "{{app_dir}}/.env"
       state: present
       regexp: "^{{item.key}}="
       line: "{{item.key}}='{{item.value}}'"
@@ -106,9 +106,15 @@
         virtualenv_python: python3
 
     - name: make migrations
-        shell: python3 manage.py makemigrations
-        shell: python3 manage.py migrate
-        shell: python3 manage.py collectstatic
+      django_manage:
+        command: "{{ item }}"
+        app_path: "{{app_dir}}"
+        virtualenv: "{{app_dir}}/venv"
+      with_items:
+        - makemigrations
+        - migrate
+        - collectstatic
+
 
     - name: copy django service file
       template:
