@@ -3,7 +3,7 @@
 
   vars:
     app_dir: "{{user_dir}}/django-project"
-    git_repo_url: "git@github.com:KOSTISKONTO/myproject.git"
+    git_repo_url: "https://github.com/KOSTISKONTO/myproject.git"
     git_repo_branch: "master"
 
   tasks:
@@ -37,16 +37,11 @@
 
   - name: clone django project
     git:
-      repo: "{{git_repo_url}}"
+      repo: "{{ git_repo_url }}"
       version: "{{git_repo_branch}}"
       dest: "{{app_dir}}"
       accept_hostkey: yes
-      key_file: /var/lib/jenkins/.ssh/id_rsa
-      clone: yes
-      force: yes
-      
-
-    changed_when: true
+    
 
   - name: copy env file
     shell : "cp {{app_dir}}/myproject/.env.example {{app_dir}}/myproject/.env"
