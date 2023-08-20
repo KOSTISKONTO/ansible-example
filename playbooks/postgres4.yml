@@ -1,5 +1,5 @@
 ---
-- hosts: webserversall
+- hosts: deploy-vm-2
   roles:
     - role: geerlingguy.postgresql
       become: yes
