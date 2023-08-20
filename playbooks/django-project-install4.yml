@@ -138,6 +138,7 @@
       apt:
         name: nginx
         update_cache: yes
+      become: yes
 
     - name: copy nginx conf file
       template:
