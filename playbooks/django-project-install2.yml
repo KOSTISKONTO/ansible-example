@@ -107,15 +107,15 @@
 
     
     
-  - name: Make manage.py executable
-    file:
-       path: "{{ project_path }}/manage.py"
-       mode: 0777
+    - name: make manage.py executable
+      file:
+        path: "{{ project_path }}/manage.py"
+        mode: 0777
 
 
 
 
-  - name: make migrations
+    - name: make migrations
       django_manage:
         command: "{{ item }}"
         app_path: "{{app_dir}}/"
