@@ -110,7 +110,7 @@
     - name: makemigrations
       pip:
       
-        migrate: "{{app_dir}}/managr.py migrate"
+        migrate: "{{app_dir}}/manage.py migrate"
         makemigrations: "{{app_dir}}/manage.py makemigrations"
         virtualenv_python: python3
 
