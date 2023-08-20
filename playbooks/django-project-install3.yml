@@ -1,0 +1,124 @@
+---
+- hosts: deploy-vm-2
+
+  vars:
+    app_dir: "{{user_dir}}/django-project"
+    git_repo_url: "https://github.com/KOSTISKONTO/myproject.git"
+    git_repo_branch: "master"
+
+  tasks:
+
+
+
+    
+
+
+
+
+    
+
+     
+      
+   
+      
+
+    
+
+    
+
+
+    - name: copy django service file
+      template:
+        src: ../files/django/gunicorn.service.j2
+        dest: "/etc/systemd/system/gunicorn.service"
+      become: yes
+      become_user: root
+      notify: restart gunicorn
+
+
+    - name: ensure gunicorn service started
+      service:
+        name: gunicorn
+        state: started
+        enabled: yes
+      become: yes
+
+- name: install and configure nginx
+  block:
+  
+    - name: "APT - install nginx"
+      apt:
+        name: nginx
+        update_cache: yes
+
+    - name: copy nginx conf file
+      template:
+        src: ../files/nginx/demo.nginx.j2
+        dest: "/etc/nginx/sites-available/django"
+
+    - name: copy nginx https conf file
+      template:
+        src: ../files/nginx/demo.https.nginx.j2
+        dest: "/etc/nginx/sites-available/djangossl"
+
+
+    - name: copy certificates
+      copy:
+        src: "{{item}}"
+        dest: /etc/ssl/private/
+      with_items:
+        - ../files/certs/server.crt
+        - ../files/certs/server.key
+
+    - name: fix nginx permissions
+      ansible.builtin.file:
+        path: "{{user_dir}}"
+        mode: ugo+x
+             
+    - name: enable django site in nginx
+      file:
+        src: "/etc/nginx/sites-available/django"
+        dest: "/etc/nginx/sites-enabled/django"
+        state: link
+      notify:
+        - restart nginx
+        - reload nginx
+
+    - name: enable djangossl site in nginx
+      file:
+        src: "/etc/nginx/sites-available/djangossl"
+        dest: "/etc/nginx/sites-enabled/djangossl"
+        state: link
+      notify:
+        - restart nginx
+        - reload nginx
+
+    - name: de-activate default nginx site
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      notify: restart nginx
+
+    become: yes
+    become_user: root
+
+
+
+  handlers:
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
+      become: yes
+
+    - name: reload nginx
+      service:
+        name: nginx
+        state: reloaded
+      become: yes
+
+    - name: restart gunicorn
+      service:
+        name: gunicorn
+        state: restarted
+      become: yes
