@@ -106,7 +106,8 @@
         virtualenv_python: python3
 
     
-    
+    - name: copy env file
+      shell : "pip install django"
     
 
 
