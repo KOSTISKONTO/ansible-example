@@ -11,8 +11,6 @@
   - name: print user_dir
     debug:
       msg: "user dir is {{user_dir}}"
-  
-  
 
   - name: Run whoami without become.
     command: whoami
@@ -108,7 +106,6 @@
         virtualenv_python: python3
 
     - name: make migrations
-      pip: install django
       django_manage:
         command: "{{ item }}"
         app_path: "{{app_dir}}"
