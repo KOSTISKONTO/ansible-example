@@ -86,7 +86,6 @@
     block:
     - name: setup virtual environment
       pip:
-        django:
         requirements: "{{app_dir}}/requirements.txt"
         virtualenv: "{{app_dir}}/venv"
         virtualenv_python: python3
