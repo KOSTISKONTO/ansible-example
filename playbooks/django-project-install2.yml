@@ -86,10 +86,9 @@
     block:
     - name: setup virtual environment
       pip:
-        django: 
-
+        django:
         requirements: "{{app_dir}}/requirements.txt"
-        virtualenv: "{{app_dir}}/venv"
+        virtualenv: "{{app_dir}}"
         virtualenv_python: python3
     rescue:
     - name: "APT - install misc packages"
@@ -109,10 +108,7 @@
 
     
     
-    - name: make manage.py executable
-      file:
-        path: "{{ app_dir }}/manage.py"
-        mode: 0777
+    
 
 
 
