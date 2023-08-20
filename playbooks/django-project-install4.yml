@@ -1,5 +1,5 @@
 ---
-- hosts: webserver
+- hosts: deploy-vm-2
 
   vars:
     app_dir: "{{user_dir}}/django-project"
