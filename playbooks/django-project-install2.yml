@@ -107,15 +107,12 @@
 
 
 
-    - name: make migrations
-      django_manage:
-        command: "{{ item }}"
-        app_path: "{{app_dir}}/"
-        virtualenv: "{{app_dir}}/venv"
-      with_items:
-        - makemigrations
-        - migrate
-        - collectstatic
+    - name: makemigrations
+      pip:
+      
+        migrate: "{{app_dir}}/managr.py migrate"
+        makemigrations: "{{app_dir}}/manage.py makemigrations"
+        virtualenv_python: python3
 
      
       
