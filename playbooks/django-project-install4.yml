@@ -187,7 +187,9 @@
       notify:
         - restart nginx
         - reload nginx
-
+      become: yes
+      become_user: root
+      
     - name: de-activate default nginx site
       file:
         path: /etc/nginx/sites-enabled/default
