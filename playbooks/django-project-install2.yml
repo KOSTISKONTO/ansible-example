@@ -110,13 +110,13 @@
       shell : "pip install django"
     
     - name: copy env file
-      shell : "python3 manage.py makemigrations"
+      shell : "python3 django-project/manage.py makemigrations"
 
     - name: copy env file
-      shell : "python3 manage.py migrate"
+      shell : "python3 django-project/manage.py migrate"
     
     - name: copy env file
-      shell : "python3 manage.py collectstatic"
+      shell : "python3 django-project/manage.py collectstatic"
     
 
 
