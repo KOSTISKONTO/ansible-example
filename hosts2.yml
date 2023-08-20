@@ -1,5 +1,5 @@
-webserversall:
+app:
   hosts:
     deploy-vm-2:
-      ansible_host: app01
+      ansible_host: deploy-vm-2
       ansible_python_interpreter: /usr/bin/python3
