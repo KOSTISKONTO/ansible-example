@@ -187,8 +187,8 @@
         state: absent
       notify: restart nginx
 
-    become: yes
-    become_user: root
+      become: yes
+      become_user: root
 
 
 
