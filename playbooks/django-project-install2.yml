@@ -109,7 +109,7 @@
     
     - name: make manage.py executable
       file:
-        path: "{{ project_path }}/manage.py"
+        path: "{{ app_dir }}/manage.py"
         mode: 0777
 
 
