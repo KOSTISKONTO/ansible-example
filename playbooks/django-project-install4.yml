@@ -145,14 +145,14 @@
         src: ../files/nginx/demo.nginx.j2
         dest: "/etc/nginx/sites-available/django"
       become: yes
-      become_user: root
+      
 
     - name: copy nginx https conf file
       template:
         src: ../files/nginx/demo.https.nginx.j2
         dest: "/etc/nginx/sites-available/djangossl"
       become: yes
-      become_user: root
+      
 
 
     - name: copy certificates
@@ -163,8 +163,7 @@
         - ../files/certs/server.crt
         - ../files/certs/server.key
       become: yes
-      become_user: root
-
+      
     - name: fix nginx permissions
       ansible.builtin.file:
         path: "{{user_dir}}"
@@ -179,8 +178,7 @@
         - restart nginx
         - reload nginx
       become: yes
-      become_user: root
-
+      
     - name: enable djangossl site in nginx
       file:
         src: "/etc/nginx/sites-available/djangossl"
@@ -190,7 +188,7 @@
         - restart nginx
         - reload nginx
       become: yes
-      become_user: root
+      
 
     - name: de-activate default nginx site
       file:
@@ -199,7 +197,7 @@
       notify: restart nginx
 
       become: yes
-      become_user: root
+      
 
 
 
