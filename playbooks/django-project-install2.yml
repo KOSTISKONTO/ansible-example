@@ -87,7 +87,7 @@
     - name: setup virtual environment
       pip:
         requirements: "{{app_dir}}/requirements.txt"
-        virtualenv: "{{app_dir}}/venv"
+        virtualenv: "{{app_dir}}/myproject/venv"
         virtualenv_python: python3
     rescue:
     - name: "APT - install misc packages"
