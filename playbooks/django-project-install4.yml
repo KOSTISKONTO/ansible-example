@@ -1,10 +1,10 @@
 ---
-- hosts: deploy-vm-2
+- hosts: webserver
 
   vars:
     app_dir: "{{user_dir}}/django-project"
-    git_repo_url: "https://github.com/KOSTISKONTO/myproject.git"
-    git_repo_branch: "master"
+    git_repo_url: "https://github.com/KOSTISKONTO/newproject-django.git"
+    git_repo_branch: "main"
 
   tasks:
 
@@ -45,11 +45,11 @@
     changed_when: true
 
   - name: copy env file
-    shell : "cp {{app_dir}}/myproject/.env.example {{app_dir}}/myproject/.env"
+    shell : "cp {{app_dir}}/myproject/myproject/.env.example {{app_dir}}/myproject/myproject/.env"
 
   - name: populate  ~/.env
     lineinfile:
-      dest: "{{app_dir}}/myproject/.env"
+      dest: "{{app_dir}}/myproject/myproject/.env"
       state: present
       regexp: "^{{item.key}}="
       line: "{{item.key}}='{{item.value}}'"
@@ -76,7 +76,7 @@
 
   - name: add ip in django ALLOWED_HOSTS
     lineinfile:
-      dest: "{{app_dir}}/myproject/settings.py"
+      dest: "{{app_dir}}/myproject/myproject/settings.py"
       regexp: "^ALLOWED_HOSTS ="
       line: "ALLOWED_HOSTS = {{ ansible_all_ipv4_addresses + [public_ip.json.ip]}}"
       state: present
@@ -86,7 +86,7 @@
     - name: setup virtual environment
       pip:
         requirements: "{{app_dir}}/requirements.txt"
-        virtualenv: "{{app_dir}}/venv"
+        virtualenv: "{{app_dir}}/myvenv"
         virtualenv_python: python3
     rescue:
     - name: "APT - install misc packages"
@@ -98,13 +98,17 @@
       when: hostvars[inventory_hostname].ansible_distribution == 'Ubuntu'
     always:
 
-    
+    - name: setup virtual environment
+      pip:
+        requirements: "{{app_dir}}/requirements.txt"
+        virtualenv: "{{app_dir}}/myvenv"
+        virtualenv_python: python3
 
     - name: make migrations
       django_manage:
         command: "{{ item }}"
-        app_path: "{{app_dir}}/"
-        virtualenv: "{{app_dir}}/venv"
+        app_path: "{{app_dir}}/myproject"
+        virtualenv: "{{app_dir}}/myvenv"
       with_items:
         - makemigrations
         - migrate
