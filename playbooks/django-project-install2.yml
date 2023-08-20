@@ -107,7 +107,7 @@
 
     
     - name: copy env file
-      shell : "pip install django"
+      shell : "cd django-project && pip install django"
     
     - name: copy env file
       shell : "python3 django-project/manage.py makemigrations"
