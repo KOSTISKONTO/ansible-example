@@ -108,9 +108,19 @@
 
 
     - name: makemigrations
-      shell : "python3 django-project/manage.py makemigrations"
+      shell : "cd django-project"
+      shell : "python3 -m pip install Django"
       
 
+    - name: make migrations
+      django_manage:
+        command: "{{ item }}"
+        app_path: "{{app_dir}}/myproject"
+        virtualenv: "{{app_dir}}/myvenv"
+      with_items:
+        - makemigrations
+        - migrate
+        - collectstatic
 
 
     
