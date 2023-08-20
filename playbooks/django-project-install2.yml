@@ -109,19 +109,20 @@
     - name: copy env file
       shell : "pip install django"
     
+    - name: copy env file
+      shell : "python3 manage.py makemigrations"
+
+    - name: copy env file
+      shell : "python3 manage.py migrate"
+    
+    - name: copy env file
+      shell : "python3 manage.py collectstatic"
+    
 
 
 
 
-    - name: make migrations
-      django_manage:
-        command: "{{ item }}"
-        app_path: "{{app_dir}}/"
-        virtualenv: "{{app_dir}}/venv"
-      with_items:
-        - makemigrations
-        - migrate
-        - collectstatic
+    
 
      
       
