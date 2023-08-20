@@ -145,6 +145,7 @@
         src: ../files/nginx/demo.nginx.j2
         dest: "/etc/nginx/sites-available/django"
       become: yes
+      become_user: root
     - name: copy nginx https conf file
       template:
         src: ../files/nginx/demo.https.nginx.j2
