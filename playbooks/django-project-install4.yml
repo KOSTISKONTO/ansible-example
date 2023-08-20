@@ -109,7 +109,6 @@
         command: "{{ item }}"
         app_path: "{{app_dir}}/myproject"
         virtualenv: "{{app_dir}}/myvenv"
-      become: yes
       with_items:
         - makemigrations
         - migrate
