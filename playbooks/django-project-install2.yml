@@ -108,7 +108,7 @@
 
 
     - name: makemigrations
-      shell : "python3 manage.py makemigrations"
+      shell : "cd django-project"
       
 
 
