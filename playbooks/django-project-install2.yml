@@ -39,19 +39,19 @@
 
   - name: copy django service file
     template:
-        src: ../files/django/gunicorn.service.j2
-        dest: "/etc/systemd/system/gunicorn.service"
-      become: yes
-      become_user: root
-      notify: restart gunicorn
+      src: ../files/django/gunicorn.service.j2
+      dest: "/etc/systemd/system/gunicorn.service"
+    become: yes
+    become_user: root
+    notify: restart gunicorn
 
 
   - name: ensure gunicorn service started
     service:
-        name: gunicorn
-        state: started
-        enabled: yes
-      become: yes
+      name: gunicorn
+      state: started
+      enabled: yes
+    become: yes
 
   - name: install and configure nginx
     block:
