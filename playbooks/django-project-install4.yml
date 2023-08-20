@@ -2,7 +2,7 @@
 - hosts: deploy-vm-2
 
   vars:
-    app_dir: "{{user_dir}}/django-project"
+    app_dir: "{{user_dir}}/newproject"
     git_repo_url: "https://github.com/KOSTISKONTO/newproject-django.git"
     git_repo_branch: "main"
 
