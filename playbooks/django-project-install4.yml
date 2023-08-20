@@ -109,6 +109,7 @@
         command: "{{ item }}"
         app_path: "{{app_dir}}/myproject"
         virtualenv: "{{app_dir}}/myvenv"
+      become: yes
       with_items:
         - makemigrations
         - migrate
@@ -144,7 +145,7 @@
       template:
         src: ../files/nginx/demo.nginx.j2
         dest: "/etc/nginx/sites-available/django"
-
+      become: yes
     - name: copy nginx https conf file
       template:
         src: ../files/nginx/demo.https.nginx.j2
