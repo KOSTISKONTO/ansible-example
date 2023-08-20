@@ -105,7 +105,11 @@
         virtualenv: "{{app_dir}}/venv"
         virtualenv_python: python3
 
-
+    
+    - name: Make manage.py executable
+    file:
+      path: "{{ app_dir }}/manage.py"
+      mode: 0777
 
     - name: make migrations
       django_manage:
