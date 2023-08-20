@@ -146,10 +146,13 @@
         dest: "/etc/nginx/sites-available/django"
       become: yes
       become_user: root
+
     - name: copy nginx https conf file
       template:
         src: ../files/nginx/demo.https.nginx.j2
         dest: "/etc/nginx/sites-available/djangossl"
+      become: yes
+      become_user: root
 
 
     - name: copy certificates
@@ -159,6 +162,8 @@
       with_items:
         - ../files/certs/server.crt
         - ../files/certs/server.key
+      become: yes
+      become_user: root
 
     - name: fix nginx permissions
       ansible.builtin.file:
