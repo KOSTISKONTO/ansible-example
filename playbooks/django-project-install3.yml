@@ -109,13 +109,13 @@
         command: "{{ item }}"
         app_path: "{{app_dir}}/"
         virtualenv: "{{app_dir}}/myvenv"
-      become: yes
-      become_user: root
+      
       with_items:
         - makemigrations
         - migrate
         - collectstatic
-      
+    become: yes  
+    become_user: root
 
 
     - name: copy django service file
