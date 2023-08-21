@@ -4,7 +4,7 @@ user_dir: "/home/azureuser"
 
 djangoservice:
   workingdir: /home/azureuser/newproject/myproject
-  execstart: /home/azureuser/newproject/venv/bin/gunicorn --access-logfile - --workers 3 --bind 0.0.0.0:8000 myproject.wsgi:application
+  execstart: /home/azureuser/newproject/myvenv/bin/gunicorn --access-logfile - --workers 3 --bind 0.0.0.0:8000 myproject.wsgi:application
 
 django:
   env:
