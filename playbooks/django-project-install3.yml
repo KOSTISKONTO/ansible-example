@@ -115,7 +115,7 @@
         - makemigrations
         - migrate
         - collectstatic
-        
+      
 
 
     - name: copy django service file
