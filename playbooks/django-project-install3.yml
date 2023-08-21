@@ -114,8 +114,8 @@
         - makemigrations
         - migrate
         - collectstatic
-    become: yes  
-    become_user: root
+      become: yes  
+      become_user: root
 
 
     - name: copy django service file
