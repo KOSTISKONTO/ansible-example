@@ -2,29 +2,119 @@
 - hosts: deploy-vm-2
 
   vars:
-    app_dir: "{{user_dir}}/django-project"
+    app_dir: "{{user_dir}}/myproject"
     git_repo_url: "https://github.com/KOSTISKONTO/myproject.git"
-    git_repo_branch: "master"
+    git_repo_branch: "main"
 
   tasks:
 
+  - name: print user_dir
+    debug:
+      msg: "user dir is {{user_dir}}"
 
+  - name: Run whoami without become.
+    command: whoami
+    changed_when: false
+    become: false
+    register: whoami
 
-    
+  - name: Set a fact with the user name.
+    set_fact:
+      login_user: "{{ whoami.stdout }}"
 
+  - name: print user name
+    debug:
+      msg: "login user is {{login_user}}"
 
+  - name: ensure github.com is a known host
+    lineinfile:
+      dest: "{{user_dir}}/.ssh/known_hosts"
+      create: yes
+      state: present
+      line: "{{lookup('pipe', 'ssh-keyscan -t rsa github.com')}}"
+      regexp: "^github\\.com"
+    ignore_errors: true
 
+  - name: clone django project
+    git:
+      repo: "{{git_repo_url}}"
+      version: "{{git_repo_branch}}"
+      clone: yes
+      force: yes
+      dest: "{{app_dir}}"
+    changed_when: true
 
-    
+  - name: copy env file
+    shell : "cp {{app_dir}}/myproject/.env.example {{app_dir}}/myproject/.env"
 
-     
-      
-   
-      
+  - name: populate  ~/.env
+    lineinfile:
+      dest: "{{app_dir}}/myproject/.env"
+      state: present
+      regexp: "^{{item.key}}="
+      line: "{{item.key}}='{{item.value}}'"
+    with_items:
+      - "{{django.env | dict2items}}"
 
-    
+  - name: Get the public IP address of the network.
+    uri:
+      url: https://api.ipify.org?format=json
+      method: Get
+    changed_when: false
+    register: public_ip
+    until: public_ip.status == 200
+    retries: 6
+    delay: 10
 
-    
+  - name: print public ip
+    debug:
+      msg: "public ip is {{ public_ip.json.ip}}"
+
+  - name: print ip
+    debug:
+      msg: "ALLOWED_HOSTS={{ ansible_all_ipv4_addresses + [public_ip.json.ip]}}"
+
+  - name: add ip in django ALLOWED_HOSTS
+    lineinfile:
+      dest: "{{app_dir}}/myproject/settings.py"
+      regexp: "^ALLOWED_HOSTS ="
+      line: "ALLOWED_HOSTS = {{ ansible_all_ipv4_addresses + [public_ip.json.ip]}}"
+      state: present
+
+  - name: install and activate virtual environment
+    block:
+    - name: setup virtual environment
+      pip:
+        requirements: "{{app_dir}}/requirements.txt"
+        virtualenv: "{{app_dir}}/myvenv"
+        virtualenv_python: python3
+    rescue:
+    - name: "APT - install misc packages"
+      apt:
+        name: [python3, python3-pip, python3-virtualenv, virtualenv]
+        update_cache: yes
+      become: yes
+      become_user: root
+      when: hostvars[inventory_hostname].ansible_distribution == 'Ubuntu'
+    always:
+
+    - name: setup virtual environment
+      pip:
+        requirements: "{{app_dir}}/requirements.txt"
+        virtualenv: "{{app_dir}}/myvenv"
+        virtualenv_python: python3
+
+    - name: make migrations
+      django_manage:
+        command: "{{ item }}"
+        app_path: "{{app_dir}}/myproject"
+        virtualenv: "{{app_dir}}/myvenv"
+      with_items:
+        - makemigrations
+        - migrate
+        - collectstatic
+      become: yes
+      become_user: root
 
 
     - name: copy django service file
@@ -43,23 +133,28 @@
         enabled: yes
       become: yes
 
-- name: install and configure nginx
-  block:
-  
+  - name: install and configure nginx
+    block:
+
     - name: "APT - install nginx"
       apt:
         name: nginx
         update_cache: yes
+      become: yes
 
     - name: copy nginx conf file
       template:
         src: ../files/nginx/demo.nginx.j2
         dest: "/etc/nginx/sites-available/django"
+      become: yes
+      
 
     - name: copy nginx https conf file
       template:
         src: ../files/nginx/demo.https.nginx.j2
         dest: "/etc/nginx/sites-available/djangossl"
+      become: yes
+      
 
 
     - name: copy certificates
@@ -69,7 +164,8 @@
       with_items:
         - ../files/certs/server.crt
         - ../files/certs/server.key
-
+      become: yes
+      
     - name: fix nginx permissions
       ansible.builtin.file:
         path: "{{user_dir}}"
@@ -83,7 +179,8 @@
       notify:
         - restart nginx
         - reload nginx
-
+      become: yes
+      
     - name: enable djangossl site in nginx
       file:
         src: "/etc/nginx/sites-available/djangossl"
@@ -92,6 +189,8 @@
       notify:
         - restart nginx
         - reload nginx
+      become: yes
+      
 
     - name: de-activate default nginx site
       file:
@@ -99,8 +198,8 @@
         state: absent
       notify: restart nginx
 
-    become: yes
-    become_user: root
+      become: yes
+      
 
 
 
