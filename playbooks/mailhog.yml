@@ -4,7 +4,10 @@
 
   tasks:
 
-    
+  - name: install go get
+    shell : "sudo su && apt-get -y install golang-go "
+
+
 
   - name: get MailHog
     shell : "go get github.com/mailhog/MailHog"
