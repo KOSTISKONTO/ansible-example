@@ -13,3 +13,14 @@
 
   - name: get MailHog
     shell : "go install github.com/mailhog/MailHog@latest"
+
+  
+  - name: install mhsendemail
+    shell : "go install github.com/mailhog/mhsendmail"
+
+  - name: env path mhsendemail
+    shell : "sendmail_path = /usr/local/bin/mhsendmail"
+  
+
+
+    
