@@ -5,7 +5,7 @@
   tasks:
 
   - name: install go get
-    shell : "sudo su && apt-get -y install golang-go "
+    shell : "sudo apt-get -y install golang-go "
 
 
 
