@@ -1,6 +1,6 @@
 ---
 # Install and configure MailHog.
-- hosts: testapp
+- hosts: deploy-vm-2
 
   tasks:
 
