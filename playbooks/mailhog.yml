@@ -19,7 +19,7 @@
     shell : "go install github.com/mailhog/mhsendmail@latest"
 
   - name: env path mhsendemail
-    shell : "sendmail_path = /usr/local/bin/mhsendmail"
+    shell : "/usr/sbin/sendmail -S mail:1025"
   
 
 
