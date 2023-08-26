@@ -6,8 +6,10 @@
 
   - name: install go get
     shell : "sudo apt-get -y install golang-go "
+    become: yes
+    become_user: root
 
 
 
   - name: get MailHog
-    shell : "go get github.com/mailhog/MailHog"
+    shell : "go get github.com/mailhog/MailHog@latest"
