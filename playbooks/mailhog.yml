@@ -1,6 +1,6 @@
 ---
 # Install and configure MailHog.
-- hosts: deploy-vm-2
+- hosts: testapp
 
   tasks:
   - name: Ensure mailhog install directory exists.
