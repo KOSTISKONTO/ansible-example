@@ -3,38 +3,8 @@
 - hosts: testapp
 
   tasks:
-  
 
-  - name: Download MailHog and mhsendmail binaries.
-    get_url:
-      url: "{{ item.url }}"
-      dest: "{{ item.dest }}"
-      owner: root
-      group: root
-      mode: 0755
-    with_items:
-      - url: "github.com/mailhog/MailHog@latest"
-        dest: "go/bin/mailhog"
-      - url: "github.com/mailhog/mhsendmail"
-        dest: "go/bin/mhsendmail"
+    
 
-  - name: Copy mailhog init script into place.
-    template:
-      src: mailhog.init.j2
-      dest: /etc/init.d/mailhog
-      owner: root
-      group: root
-      mode: 0755
-    when: "ansible_service_mgr != 'systemd'"
-
-  - name: Copy mailhog systemd unit file into place (for systemd systems).
-    template:
-      src: mailhog.unit.j2
-      dest: /etc/systemd/system/mailhog.service
-      owner: root
-      group: root
-      mode: 0755
-    when: "ansible_service_mgr == 'systemd'"
-
-  - name: Ensure mailhog is enabled and will start on boot.
-    service: name=mailhog state=started enabled=yes
+  - name: get MailHog
+    shell : "go get github.com/mailhog/MailHog"
