@@ -1,5 +1,6 @@
 ---
 # Install and configure MailHog.
+- hosts: deploy-vm-2
 - name: Ensure mailhog install directory exists.
   file:
     path: "{{ mailhog_install_dir }}"
