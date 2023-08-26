@@ -5,11 +5,11 @@
   tasks:
 
   - name: install go get
-    shell : "sudo apt-get -y install golang-go "
+    shell : "apt-get -y install golang-go "
     become: yes
     become_user: root
 
 
 
   - name: get MailHog
-    shell : "go get github.com/mailhog/MailHog@latest"
+    shell : "go install github.com/mailhog/MailHog@latest"
