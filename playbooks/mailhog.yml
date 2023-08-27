@@ -19,10 +19,19 @@
     shell : "go install github.com/mailhog/mhsendmail@latest"
 
   
-  - name: start MailHog
-    shell : "~/go/bin/MailHog"
-
+  - name: copy mailhog service file
+    template:
+        src: ../files/mailhog/mailhog.service
+        dest: "/etc/systemd/system/mailhog.service"
+    become: yes
+    become_user: root
   
+  - name: ensure mailhog service started
+    service:
+        name: mailhog
+        state: started
+        enabled: yes
+    become: yes
 
 
     
