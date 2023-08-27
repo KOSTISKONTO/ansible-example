@@ -25,7 +25,7 @@
         dest: "/etc/systemd/system/mailhog.service"
     become: yes
     become_user: root
-    notify: restart mailhog
+    
 
   
   - name: ensure mailhog service started
