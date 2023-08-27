@@ -2,7 +2,7 @@
 Description=MailHog service
 
 [Service]
-ExecStart=~/go/bin/Mailhog
+ExecStart= ~/go/bin/Mailhog
 
 [Install]
 WantedBy=multi-user.target
