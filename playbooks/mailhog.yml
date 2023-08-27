@@ -40,7 +40,7 @@
         src: "/etc/nginx/sites-available/mailhog"
         dest: "/etc/nginx/sites-enabled/mailhog"
         state: link
-      notify:
+    notify:
         - restart nginx
         - reload nginx
    
