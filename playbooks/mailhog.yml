@@ -31,5 +31,7 @@
     template:
         src: ../files/nginx/demo.mailhog.nginx.j2
         dest: "/etc/nginx/sites-available/mailhog"
-
+  become: yes
+  become_user: root
+   
     
