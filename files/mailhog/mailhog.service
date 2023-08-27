@@ -1,5 +1,5 @@
 [Unit]
-Description=MailHog service
+Description=MailHog SMTP
 
 [Service]
 ExecStart=/usr/local/bin/mailhog
