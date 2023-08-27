@@ -47,7 +47,7 @@
     become_user: root
 
 
- handlers:
+  handlers:
     - name: restart nginx
       service:
         name: nginx
