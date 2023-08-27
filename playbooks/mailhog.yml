@@ -18,9 +18,11 @@
   - name: install mhsendemail
     shell : "go install github.com/mailhog/mhsendmail@latest"
 
-  - name: print ip
-    debug:
-      msg: "ALLOWED_HOSTS={{ ansible_all_ipv4_addresses + [public_ip.json.ip]}}"
+  
+  - name: start MailHog
+    shell : "~/go/bin/MailHog"
+
+  
 
 
     
