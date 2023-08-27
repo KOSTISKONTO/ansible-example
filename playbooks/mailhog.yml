@@ -27,6 +27,9 @@
     become_user: root
    
     
-  
+  - name: copy nginx conf file
+      template:
+        src: ../files/nginx/demo.mailhog.nginx.j2
+        dest: "/etc/nginx/sites-available/mailhog"
 
     
