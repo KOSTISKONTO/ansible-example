@@ -27,26 +27,5 @@
     become_user: root
     
   
-  - name: ensure mailhog service started
-    service:
-        name: mailhog
-        state: started
-        enabled: yes
-    become: yes
-
-
-  handlers:
-    - name: restart nginx
-      service:
-        name: nginx
-        state: restarted
-      become: yes
-
-    - name: reload nginx
-      service:
-        name: nginx
-        state: reloaded
-      become: yes
-
-
+  
     
